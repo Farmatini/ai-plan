@@ -1,0 +1,11 @@
+{
+  "name": "ai-plan",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Локальный холст для понятного человеку описания архитектуры программы",
+  "scripts": {
+    "sync": "node sync-example.cjs",
+    "test": "node verify.cjs",
+    "test:browser": "node smoke-test.cjs"
+  }
+}

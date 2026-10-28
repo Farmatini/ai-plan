@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Холст архитектуры</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="canvas-core.js"></script>
+  <script defer src="config.js"></script>
+  <script defer src="initial-data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header>
+  <div class="brand"><strong id="app-name">Холст архитектуры</strong><span id="app-subtitle">Карта программы для человека</span></div>
+  <nav aria-label="Файл">
+    <button id="open">Открыть .canvas</button><input type="file" id="file" accept=".canvas,.json" hidden>
+    <button id="download" class="primary">Скачать .canvas</button>
+  </nav>
+</header>
+<div class="toolbar" role="toolbar" aria-label="Редактирование холста">
+  <button id="add">+ Блок</button><button id="group">+ Группа</button>
+  <button id="undo" title="Ctrl+Z">Отменить</button><button id="redo" title="Ctrl+Shift+Z">Вернуть</button>
+  <button id="delete">Удалить</button><span class="separator"></span>
+  <button id="pan" aria-pressed="false">Двигать вид</button>
+  <button id="fit">Вся схема</button><button id="zoom-out" aria-label="Уменьшить масштаб">−</button><output id="zoom">100%</output><button id="zoom-in" aria-label="Увеличить масштаб">+</button>
+  <button id="example">Исходная схема</button>
+</div>
+<main>
+  <div id="viewport" aria-label="Холст: выделение мышью, перемещение за заголовки" role="region">
+    <div id="world"><div id="groups"></div><svg id="edges" aria-label="Связи между блоками"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs><g id="lines"></g></svg><div id="cards"></div></div>
+    <div id="marquee" hidden></div><div id="canvas-hint">Колесо: масштаб · Alt + перетаскивание: вид · Shift: несколько блоков</div>
+  </div>
+  <aside aria-label="Свойства выделения">
+    <h1>Свойства</h1>
+    <p id="selection-description">Выберите блок или связь.</p>
+    <div id="node-fields" hidden>
+      <label id="text-label" for="node-text">Текст блока</label><textarea id="node-text" rows="10"></textarea>
+      <p class="hint">Первая строка — название. Ниже — описание по-русски, статус и пути к файлам. Текст без форматирования.</p>
+      <div class="sizes"><label>Ширина<input type="number" id="node-width" min="180" max="10000" step="10"></label><label>Высота<input type="number" id="node-height" min="100" max="10000" step="10"></label></div>
+      <div id="color-fields" hidden>
+        <label for="node-color" id="node-color-label">Цвет фона блока</label>
+        <div class="color-controls"><input type="color" id="node-color" value="#7693b0"><button id="reset-node-color" type="button">Сбросить цвет</button></div>
+        <p class="hint">Цвет сохраняется вместе со схемой.</p>
+      </div>
+    </div>
+    <div id="edge-fields" hidden>
+      <label for="edge-label">Подпись связи</label><input id="edge-label" type="text">
+      <label for="from-side">Сторона источника</label><select id="from-side"><option value="top">Сверху</option><option value="right">Справа</option><option value="bottom">Снизу</option><option value="left">Слева</option></select>
+      <label for="to-side">Сторона назначения</label><select id="to-side"><option value="top">Сверху</option><option value="right">Справа</option><option value="bottom">Снизу</option><option value="left">Слева</option></select>
+      <label for="from-end">Начало связи</label><select id="from-end"><option value="none">Без стрелки</option><option value="arrow">Стрелка</option></select>
+      <label for="to-end">Конец связи</label><select id="to-end"><option value="arrow">Стрелка</option><option value="none">Без стрелки</option></select>
+    </div>
+    <hr><h2>Как соединить</h2><p class="hint">Нажмите круг на стороне одного блока, затем круг другого. Escape отменяет соединение. Группа охватывает выделенные блоки.</p>
+    <p class="hint">Черновик хранится в этом браузере. Чтобы обновить проект, скачайте схему и замените <code id="project-file"></code>.</p>
+    <p><a href="AI_AGENT_INSTRUCTIONS.md" target="_blank" rel="noopener">Инструкция AI агенту</a></p>
+  </aside>
+</main>
+<footer><span id="message" role="status" aria-live="polite">Загрузка схемы…</span><span id="storage"></span></footer>
+</body>
+</html>
